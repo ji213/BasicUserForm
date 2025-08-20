@@ -73,6 +73,10 @@ const server = http.createServer(async (req, res) => {
               <input type="date" id="birthdate" name="birthdate" required>
             <div>
             </div>
+              <label for="sport">Sport</label>
+              <input type="text" id="sport" name="sport" required>
+            <div>
+            </div>
             <div>
               <label for="gender">Gender</label>
               <select id="gender" name="gender" required>

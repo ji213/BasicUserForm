@@ -9,12 +9,12 @@ GO
 --Work on what columns we will add to the form
 CREATE TABLE [dbo].[tbl_User_Form](
 	UserID INT PRIMARY KEY IDENTITY(1,1),
-    FirstName NVARCHAR(255) NOT NULL,
-    LastName NVARCHAR(255) NOT NULL,
-    Email NVARCHAR(255) UNIQUE NOT NULL,
-    Gender NVARCHAR(50) NOT NULL,
+    FirstName NVARCHAR(100) NOT NULL,
+    LastName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(256) UNIQUE NOT NULL,
+    Gender NVARCHAR(16) NOT NULL,
     Birthdate DATE  NOT NULL,
-    Sport NVARCHAR(500) NOT NULL,
+    Sport NVARCHAR(50),
     CreatedDt DATETIME DEFAULT GETDATE()
 ) ON [PRIMARY]
 GO
