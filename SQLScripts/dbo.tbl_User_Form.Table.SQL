@@ -14,6 +14,7 @@ CREATE TABLE [dbo].[tbl_User_Form](
     Email NVARCHAR(255) UNIQUE NOT NULL,
     Gender NVARCHAR(50) NOT NULL,
     Birthdate DATE  NOT NULL,
+    Sport NVARCHAR(500) NOT NULL,
     CreatedDt DATETIME DEFAULT GETDATE()
 ) ON [PRIMARY]
 GO
