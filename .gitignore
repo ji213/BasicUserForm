@@ -2,7 +2,9 @@
 .env
 
 # ignore test script archive
-TestScriptArchives
+TestScriptArchives/
 
-# ignore node modulea
+# ignore node modules
 node_modules/
+
+note.txt
