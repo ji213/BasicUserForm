@@ -7,17 +7,6 @@
 // npm init -y
 // npm install mssql dotenv
 
-// We use the 'dotenv' package to load environment variables from a .env file,
-// which is a best practice for handling sensitive data like database credentials.
-// Create a file named '.env' in the same directory as this script with the following content.
-// Note: For Windows Authentication, you do not need DB_USER or DB_PASSWORD.
-// You must have `trustedConnection: true` in your dbConfig.
-//
-// DB_SERVER=your_server_name
-// DB_DATABASE=localdb
-// DB_AUTHENTICATION=Windows
-// # DB_USER=your_username
-// # DB_PASSWORD=your_password
 
 const http = require('http');
 const url = require('url');
@@ -25,8 +14,6 @@ const mssql = require('mssql/msnodesqlv8')
 require('dotenv').config();  // Load .env variables
 
 // Define the SQL Server connection configuration using environment variables.
-// You MUST replace the placeholder values in the .env file with your actual
-// database server and database name.
 // putting DB_SERVER config in connection string directly from the .env file causes an issue if it has '\\'
 const dbserver = process.env.DB_SERVER.replace(/\\\\/g, '\\');
 
@@ -38,7 +25,7 @@ const dbConfig = {
   driver: 'msnodesqlv8'
 };
 
-const port = 3000;
+const port = process.env.SERVER_PORT;
 
 const server = http.createServer(async (req, res) => {
   const reqUrl = url.parse(req.url, true);
@@ -82,6 +69,10 @@ const server = http.createServer(async (req, res) => {
               <label for="email">Email Address</label>
               <input type="email" id="email" name="email" required>
             </div>
+              <label for="birthdate">Birthdate</label>
+              <input type="date" id="birthdate" name="birthdate" required>
+            <div>
+            </div>
             <div>
               <label for="gender">Gender</label>
               <select id="gender" name="gender" required>
@@ -114,6 +105,7 @@ const server = http.createServer(async (req, res) => {
       const lastName = params.get('lastName');
       const email = params.get('email');
       const gender = params.get('gender');
+      const birthdate = params.get('birthdate');
 
       try {
         // Connect to the SQL Server
@@ -125,12 +117,13 @@ const server = http.createServer(async (req, res) => {
         request.input('lastName', mssql.NVarChar, lastName);
         request.input('email', mssql.NVarChar, email);
         request.input('gender', mssql.NVarChar, gender);
+        request.input('birthdate', mssql.NVarChar, birthdate);
 
         // Define the SQL INSERT statement. Make sure the table `dbo.tbl_User_Form`
         // and its columns exist in your database.
         const insertQuery = `
-          INSERT INTO dbo.tbl_User_Form (FirstName, LastName, Email, Gender)
-          VALUES (@firstName, @lastName, @email, @gender)
+          INSERT INTO dbo.tbl_User_Form (FirstName, LastName, Email, Gender, Birthdate)
+          VALUES (@firstName, @lastName, @email, @gender, CAST(@birthdate AS DATE))
         `;
 
         // Execute the query

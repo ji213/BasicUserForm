@@ -1,1 +1,8 @@
+# ignore env file
 .env
+
+# ignore test script archive
+TestScriptArchives
+
+# ignore node modulea
+node_modules/

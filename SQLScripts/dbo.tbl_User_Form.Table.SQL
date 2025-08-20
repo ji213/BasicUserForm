@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[tbl_User_Form](
     LastName NVARCHAR(255) NOT NULL,
     Email NVARCHAR(255) UNIQUE NOT NULL,
     Gender NVARCHAR(50) NOT NULL,
+    Birthdate DATE  NOT NULL,
     CreatedDt DATETIME DEFAULT GETDATE()
 ) ON [PRIMARY]
 GO
