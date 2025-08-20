@@ -40,7 +40,7 @@ const server = http.createServer(async (req, res) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User Registration</title>
+        <title>User Interest Form</title>
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
           .container { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
@@ -110,6 +110,7 @@ const server = http.createServer(async (req, res) => {
       const email = params.get('email');
       const gender = params.get('gender');
       const birthdate = params.get('birthdate');
+      const sport = params.get('sport');
 
       try {
         // Connect to the SQL Server
@@ -122,12 +123,13 @@ const server = http.createServer(async (req, res) => {
         request.input('email', mssql.NVarChar, email);
         request.input('gender', mssql.NVarChar, gender);
         request.input('birthdate', mssql.NVarChar, birthdate);
+        request.input('sport', mssql.NVarChar, sport);
 
         // Define the SQL INSERT statement. Make sure the table `dbo.tbl_User_Form`
         // and its columns exist in your database.
         const insertQuery = `
-          INSERT INTO dbo.tbl_User_Form (FirstName, LastName, Email, Gender, Birthdate)
-          VALUES (@firstName, @lastName, @email, @gender, CAST(@birthdate AS DATE))
+          INSERT INTO dbo.tbl_User_Form (FirstName, LastName, Email, Gender, Birthdate, Sport)
+          VALUES (@firstName, @lastName, @email, @gender, CAST(@birthdate AS DATE), @sport)
         `;
 
         // Execute the query
