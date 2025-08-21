@@ -13,6 +13,7 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "msnodesqlv8": "^5.1.1",
-    "mssql": "^11.0.1"
+    "mssql": "^11.0.1",
+    "validator": "^13.15.15"
   }
 }

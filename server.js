@@ -11,6 +11,7 @@
 const http = require('http');
 const url = require('url');
 const mssql = require('mssql/msnodesqlv8')
+const validator = require('validator')
 require('dotenv').config();  // Load .env variables
 
 // Define the SQL Server connection configuration using environment variables.
@@ -125,15 +126,51 @@ const server = http.createServer(async (req, res) => {
         request.input('birthdate', mssql.NVarChar, birthdate);
         request.input('sport', mssql.NVarChar, sport);
 
+        // TEMP - Test logic to log parameters inputted into console
+        console.log('Input Parameters....\n');
+        console.log(`firstname: ${firstName} \n`);
+        console.log(`lastname: ${lastName} \n`);
+        console.log(`email: ${email} \n`);
+        console.log(`gender: ${gender} \n`);
+        console.log(`birthdate: ${birthdate} \n`);
+        console.log(`sport: ${sport}`);
+
+
+        // Validate input data and raise error on any failures. halt
+        
+        // Check format of user input names
+        // Check if email is valid
+        const isEmailValid = validator.isEmail(email);
+
+        // Validate birthdate
+        // Validate Sport 
+
+        if(!isEmailValid){
+          throw new Error('ERROR! Invalid Email Address');
+        }
+
+        // log to console if validation succeeds
+        console.log('Validation successfull');
+
         // Define the SQL INSERT statement. Make sure the table `dbo.tbl_User_Form`
         // and its columns exist in your database.
+        // we are changing logic to a stored procedure call, 
+        // we will keep the variable just in case we change it back temporarily
+
         const insertQuery = `
           INSERT INTO dbo.tbl_User_Form (FirstName, LastName, Email, Gender, Birthdate, Sport)
           VALUES (@firstName, @lastName, @email, @gender, CAST(@birthdate AS DATE), @sport)
         `;
 
+        const insertupdateprocedure = `EXEC dbo.usp_userform_addupdate @nFirstName = @firstname
+                                          , @nLastName = @lastname
+                                          , @nEmail = @email
+                                          , @nGender = @gender
+                                          , @nBirthdate = @birthdate
+                                          , @nSport = @sport `;
+
         // Execute the query
-        await request.query(insertQuery);
+        await request.query(insertupdateprocedure);
         console.log('Data successfully inserted into the database.');
 
         // Close the connection

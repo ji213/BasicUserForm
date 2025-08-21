@@ -15,7 +15,8 @@ CREATE TABLE [dbo].[tbl_User_Form](
     Gender NVARCHAR(16) NOT NULL,
     Birthdate DATE  NOT NULL,
     Sport NVARCHAR(50),
-    CreatedDt DATETIME DEFAULT GETDATE()
+    CreatedDt DATETIME DEFAULT GETDATE(),
+    LastModifiedDt DATETIME DEFAULT NULL 
 ) ON [PRIMARY]
 GO
 
